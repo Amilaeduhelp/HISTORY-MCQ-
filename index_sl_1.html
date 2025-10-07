@@ -330,8 +330,8 @@
             text-align: center;
         }
 
-        .copy-btn {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        .submit-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
             color: white;
             border: none;
             padding: 18px 35px;
@@ -339,12 +339,12 @@
             font-size: 1.2em;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.3);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
             position: relative;
             overflow: hidden;
         }
 
-        .copy-btn::before {
+        .submit-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -355,17 +355,57 @@
             transition: left 0.5s;
         }
 
-        .copy-btn:hover::before {
+        .submit-btn:hover::before {
             left: 100%;
         }
 
-        .copy-btn:hover {
-            background: linear-gradient(135deg, #c0392b, #a93226);
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #128C7E, #0D7A6F);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
         }
 
-        .copy-btn:active {
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .copy-result-btn {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .copy-result-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .copy-result-btn:hover::before {
+            left: 100%;
+        }
+
+        .copy-result-btn:hover {
+            background: linear-gradient(135deg, #8e44ad, #732d91);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4);
+        }
+
+        .copy-result-btn:active {
             transform: translateY(0);
         }
 
@@ -477,9 +517,16 @@
                 padding: 25px 15px;
             }
             
-            .copy-btn {
+            .submit-btn {
                 padding: 15px 25px;
                 font-size: 1.1em;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .copy-result-btn {
+                padding: 12px 20px;
+                font-size: 1em;
                 width: 100%;
                 max-width: 300px;
             }
@@ -508,9 +555,14 @@
                 gap: 5px;
             }
             
-            .copy-btn {
+            .submit-btn {
                 font-size: 1em;
                 padding: 12px 20px;
+            }
+
+            .copy-result-btn {
+                font-size: 0.95em;
+                padding: 10px 18px;
             }
         }
 
@@ -556,8 +608,8 @@
 
         <div class="user-info">
             <div class="input-group">
-                <label>🔑 කේත අංකය:</label>
-                <input type="text" id="userCode" placeholder="ඔබගේ කේත අංකය ඇතුළත් කරන්න">
+                <label>🔑 LearnX password:</label>
+                <input type="text" id="userCode" placeholder="ඔබගේ රහස් කේතය ඇතුළත් කරන්න">
             </div>
         </div>
 
@@ -1566,7 +1618,8 @@
         </div>
 
         <div class="copy-section" id="copySection">
-            <button class="copy-btn" onclick="copyAnswers()">📋 පිළිතුරු පිටපත් කරන්න</button>
+            <button class="submit-btn" onclick="submitToWhatsApp()">📱 පිළිතුරු පරීක්ෂාව සඳහා යොමු කරන්න</button>
+            <button class="copy-result-btn" onclick="copyResult()">📋 ප්‍රතිඵල පිටපත් කරන්න</button>
             <div id="statusMessage" class="status-message"></div>
         </div>
     </div>
@@ -1595,7 +1648,47 @@
             }
         }
 
-        function copyAnswers() {
+        function submitToWhatsApp() {
+            const userCode = document.getElementById('userCode').value.trim();
+
+            if (!userCode) {
+                showStatus('කරුණාකර කේත අංකය ඇතුළත් කරන්න', 'error');
+                return;
+            }
+
+            // Format: Subject + Code (e.g., "ශ්‍රී ලංකා ඉතිහාසය-043")
+            let messageText = `ශ්‍රී ලංකා ඉතිහාසය-${userCode}\n\n`;
+            
+            let hasAnswers = false;
+            for (let i = 1; i <= 40; i++) {
+                if (questions[i]) {
+                    messageText += `ප්‍රශ්නය ${i}: ${questions[i]}\n`;
+                    hasAnswers = true;
+                }
+            }
+
+            if (!hasAnswers) {
+                showStatus('කරුණාකර අවම වශයෙන් එක් ප්‍රශ්නයකට පිළිතුරක් තෝරන්න', 'error');
+                return;
+            }
+
+            // Copy to clipboard first
+            navigator.clipboard.writeText(messageText).then(() => {
+                showStatus('පිළිතුරු පිටපත් කර WhatsApp වෙත යොමු කරමින්... 📱', 'success');
+                
+                // Open WhatsApp with pre-filled message
+                const phoneNumber = '94716637804';
+                const encodedMessage = encodeURIComponent(messageText);
+                const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                
+                // Open WhatsApp in a new window/tab
+                window.open(whatsappURL, '_blank');
+            }).catch(() => {
+                showStatus('දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න', 'error');
+            });
+        }
+
+        function copyResult() {
             const userCode = document.getElementById('userCode').value.trim();
 
             if (!userCode) {
@@ -1620,7 +1713,7 @@
             }
 
             navigator.clipboard.writeText(copyText).then(() => {
-                showStatus('පිළිතුරු සාර්ථකව පිටපත් කරන ලදි! 📋', 'success');
+                showStatus('ප්‍රතිඵල සාර්ථකව පිටපත් කරන ලදි! 📋', 'success');
             }).catch(() => {
                 showStatus('පිටපත් කිරීමේ දෝෂයක් ඇතිවිය', 'error');
             });
@@ -1639,7 +1732,7 @@
 
         // Add touch feedback for mobile devices
         document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.answer-btn, .back-home-btn, .copy-btn');
+            const buttons = document.querySelectorAll('.answer-btn, .back-home-btn, .submit-btn, .copy-result-btn');
             
             buttons.forEach(button => {
                 button.addEventListener('touchstart', function() {
@@ -1664,5 +1757,4 @@
         });
     </script>
 </body>
-
 </html>
