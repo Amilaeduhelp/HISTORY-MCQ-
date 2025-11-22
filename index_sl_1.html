@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>කෙටි ප්‍රශ්න හා පිළිතුරු පද්ධතිය</title>
+    <title>ERP ප්‍රශ්නෝත්තර පද්ධතිය</title>
     <style>
         * {
             margin: 0;
@@ -13,1748 +13,391 @@
 
         body {
             font-family: 'Noto Sans Sinhala', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #FFF8DC 0%, #F5DEB3 100%);
             min-height: 100vh;
-            padding: 10px;
-            color: #333;
-            line-height: 1.6;
+            padding: 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            overflow: hidden;
-            animation: slideIn 0.8s ease-out;
         }
 
-        @keyframes slideIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        .header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .header h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-            position: relative;
-            z-index: 2;
-        }
-
-        .title-section {
-            background: linear-gradient(135deg, #fff, #f8f9fa);
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 3px solid #dee2e6;
-        }
-
-        .main-title {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .back-home-btn {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
-            position: relative;
-            overflow: hidden;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .back-home-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .back-home-btn:hover::before {
-            left: 100%;
-        }
-
-        .back-home-btn:hover {
-            background: linear-gradient(135deg, #2980b9, #1f5582);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
-        }
-
-        .back-home-btn:active {
-            transform: translateY(0);
-        }
-
-        .user-info {
-            padding: 25px 20px;
-            background: #fff;
-            border-bottom: 3px solid #e9ecef;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #2c3e50;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
+        .stat-box {
+            background-color: #FAEBD7;
+            border: 2px solid #8B4513;
             border-radius: 10px;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        .input-group input:focus {
-            border-color: #3498db;
-            outline: none;
-            background: white;
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.1);
-        }
-
-        .questions-section {
             padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .question-card {
-            background: #fff;
-            border: 2px solid #e9ecef;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .stat-label {
+            color: #654321;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        .question-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12, #e74c3c, #9b59b6);
-            animation: colorShift 3s infinite;
-        }
-
-        @keyframes colorShift {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .question-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .question-number {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .stat-value {
+            color: #8B4513;
+            font-size: 28px;
             font-weight: bold;
-            font-size: 1.1em;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-            order: 2;
+        }
+
+        .question-section {
+            background-color: #FAEBD7;
+            border: 3px solid #8B4513;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .advice-box {
+            background-color: #FFE4B5;
+            border: 2px solid #DAA520;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            color: #654321;
+            font-size: 16px;
+            line-height: 1.5;
+            font-style: italic;
         }
 
         .question-text {
-            font-size: 1.2em;
+            color: #8B4513;
+            font-size: 24px;
             font-weight: bold;
-            color: #2c3e50;
-            flex: 1;
-            order: 1;
-            min-width: 200px;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
 
         .answers-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .answer-option {
-            padding: 12px 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1em;
-            background: linear-gradient(135deg, #f8f9fa, #ffffff);
-            color: #495057;
-            transition: all 0.3s ease;
-        }
-
-        .answer-option:hover {
-            background: linear-gradient(135deg, #e9ecef, #f8f9fa);
-            transform: translateX(3px);
-        }
-
-        .answer-buttons {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .answer-btn {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #ddd;
-            background: linear-gradient(135deg, #ffffff, #f8f9fa);
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
+            background-color: #F4A460;
+            color: white;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 20px;
             font-weight: bold;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .answer-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(52, 152, 219, 0.3);
-            border-radius: 50%;
-            transition: all 0.3s ease;
-            transform: translate(-50%, -50%);
+        .answer-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            background-color: #E9967A;
         }
 
-        .answer-btn:hover::before {
-            width: 100px;
-            height: 100px;
-        }
-
-        .answer-btn:hover {
-            transform: scale(1.1);
-            border-color: #3498db;
+        .answer-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .answer-btn.selected {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            border-color: #e74c3c;
-            transform: scale(1.15);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            background-color: #D2691E;
         }
 
-        .answer-btn.selected::before {
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .copy-section {
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        .loading, .completed {
             text-align: center;
+            padding: 60px 20px;
         }
 
-        .submit-btn {
-            background: linear-gradient(135deg, #25D366, #128C7E);
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            border-radius: 30px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
-            position: relative;
-            overflow: hidden;
+        .loading-text, .completed-title {
+            color: #8B4513;
+            font-size: 32px;
+            font-weight: bold;
         }
 
-        .submit-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .submit-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn:hover {
-            background: linear-gradient(135deg, #128C7E, #0D7A6F);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .copy-result-btn {
-            background: linear-gradient(135deg, #9b59b6, #8e44ad);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 30px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.3);
-            position: relative;
-            overflow: hidden;
+        .completed-message {
+            color: #654321;
+            font-size: 20px;
             margin-top: 15px;
         }
 
-        .copy-result-btn::before {
-            content: '';
-            position: absolute;
+        /* Popup Styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
         }
 
-        .copy-result-btn:hover::before {
-            left: 100%;
+        .popup-overlay.show {
+            display: flex;
         }
 
-        .copy-result-btn:hover {
-            background: linear-gradient(135deg, #8e44ad, #732d91);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(155, 89, 182, 0.4);
+        .popup-content {
+            background-color: #FAEBD7;
+            border: 4px solid #8B4513;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 700px;
+            max-height: 85vh;
+            width: 90%;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+            overflow-y: auto;
         }
 
-        .copy-result-btn:active {
-            transform: translateY(0);
-        }
-
-        .status-message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
+        .popup-title {
+            font-size: 32px;
             font-weight: bold;
-            opacity: 0;
-            transition: all 0.3s ease;
-            transform: translateY(10px);
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .status-message.success {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            opacity: 1;
-            transform: translateY(0);
+        .popup-title.correct {
+            color: #228B22;
         }
 
-        .status-message.error {
-            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            opacity: 1;
-            transform: translateY(0);
+        .popup-title.incorrect {
+            color: #DC143C;
         }
 
-        /* Mobile Responsive Styles */
+        .popup-explanation {
+            background-color: #FFF8DC;
+            color: #654321;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .popup-ok-btn {
+            width: 100%;
+            background-color: #D2691E;
+            color: white;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .popup-ok-btn:hover {
+            transform: scale(1.05);
+        }
+
         @media (max-width: 768px) {
-            body {
-                padding: 5px;
-            }
-            
-            .container {
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 25px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .header p {
-                font-size: 1em;
-            }
-            
-            .title-section {
-                padding: 25px 15px;
-            }
-
-            .main-title {
-                font-size: 2em;
-            }
-
-            .back-home-btn {
-                padding: 12px 25px;
-                font-size: 1em;
-            }
-            
-            .user-info {
-                padding: 20px 15px;
-            }
-            
-            .questions-section {
-                padding: 15px;
-            }
-            
-            .question-card {
-                padding: 15px;
-                margin-bottom: 15px;
-            }
-            
-            .question-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
+            .stats-section {
+                grid-template-columns: 1fr;
             }
             
             .question-text {
-                order: 2;
-                min-width: unset;
-                text-align: center;
-                font-size: 1.1em;
-            }
-            
-            .question-number {
-                order: 1;
-                width: 45px;
-                height: 45px;
-                font-size: 1em;
-            }
-            
-            .answer-buttons {
-                gap: 6px;
+                font-size: 20px;
             }
             
             .answer-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.1em;
-            }
-            
-            .copy-section {
-                padding: 25px 15px;
-            }
-            
-            .submit-btn {
-                padding: 15px 25px;
-                font-size: 1.1em;
-                width: 100%;
-                max-width: 300px;
-            }
-
-            .copy-result-btn {
-                padding: 12px 20px;
-                font-size: 1em;
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.6em;
-            }
-
-            .main-title {
-                font-size: 1.8em;
-            }
-            
-            .question-text {
-                font-size: 1em;
-            }
-            
-            .answer-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1em;
-            }
-            
-            .answer-buttons {
-                gap: 5px;
-            }
-            
-            .submit-btn {
-                font-size: 1em;
-                padding: 12px 20px;
-            }
-
-            .copy-result-btn {
-                font-size: 0.95em;
-                padding: 10px 18px;
-            }
-        }
-
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            }
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* High contrast mode */
-        @media (prefers-contrast: high) {
-            .question-card {
-                border-width: 3px;
-            }
-            
-            .answer-btn {
-                border-width: 3px;
+                font-size: 18px;
+                padding: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>උසස් පෙළ ඉතිහාසය කෙටි ප්‍රශ්න හා පිළිතුරු පද්ධතිය</h1>
-            <p>අමිල උඩවත්ත-ඉතිහාසය 0716637804</p>
-        </div>
-
-        <div class="title-section">
-            <div class="main-title">ශ්‍රී ලංකා ඉතිහාසය-1</div>
-            <a href="index.html" class="back-home-btn">🏠 Back to Home</a>
-        </div>
-
-        <div class="user-info">
-            <div class="input-group">
-                <label>🔑 LearnX password:</label>
-                <input type="text" id="userCode" placeholder="ඔබගේ රහස් කේතය ඇතුළත් කරන්න">
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-box">
+                <div class="stat-label">සාමාන්‍ය අගය</div>
+                <div class="stat-value" id="normalValue">0/0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">ප්‍රතිශතය</div>
+                <div class="stat-value" id="percentage">0%</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">40න් අගය</div>
+                <div class="stat-value" id="outOf40">0/40</div>
             </div>
         </div>
 
-        <div class="questions-section" id="questionsSection">
-            <div id="questionsContainer">
-                <!-- Question 1 -->
-                <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-number">1</div>
-                        <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    </div>
-                    
-                    <div class="answers-grid">
-                        <div class="answer-option">1. කළු ගඟ</div>
-                        <div class="answer-option">2. අඹන්ගඟ</div>
-                        <div class="answer-option">3. මහවැලි ගඟ</div>
-                        <div class="answer-option">4. වළවේ ගඟ</div>
-                        <div class="answer-option">5. කැළණි ගඟ</div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(1, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(1, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(1, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(1, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(1, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 2 -->
-                <div class="question-card">
-                    <div class="question-number">2</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-                        <div class="answer-option">1. මාතොට</div>
-                        <div class="answer-option">2. උරාතොට</div>
-                        <div class="answer-option">3. ජම්බුකෝළපට්ටන</div>
-                        <div class="answer-option">4. කොරතොට</div>
-                        <div class="answer-option">5. ගෝකණ්න</div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(2, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(2, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(2, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(2, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(2, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 3 -->
-                <div class="question-card">
-                    <div class="question-number">3</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-                        <div class="answer-option">1. අනුරාධගාම</div>
-                        <div class="answer-option">2. උපතිස්සගාම</div>
-                        <div class="answer-option">3. උරුවේලගාම</div>
-                        <div class="answer-option">4. පුංඛගාම</div>
-                        <div class="answer-option">5. විජිතගාම</div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(3, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(3, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(3, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(3, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(3, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 4 -->
-                <div class="question-card">
-                    <div class="question-number">4</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. මාන්තෙයි</div>
-<div class="answer-option">2. මාන්තෝට්ටම්</div>
-<div class="answer-option">3. මහවොටු</div>
-<div class="answer-option">4. මහපුටු</div>
-<div class="answer-option">5. මාගම</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(4, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(4, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(4, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(4, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(4, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 5 -->
-                <div class="question-card">
-                    <div class="question-number">5</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. මහාගාම</div>
-<div class="answer-option">2. දීඝගාම</div>
-<div class="answer-option">3. චන්දනගාම</div>
-<div class="answer-option">4. කාචරගාම</div>
-<div class="answer-option">5. උරුවේල</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(5, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(5, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(5, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(5, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(5, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 6 -->
-                <div class="question-card">
-                    <div class="question-number">6</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. චුන්නගාම</div>
-<div class="answer-option">2. වාකිරිගල</div>
-<div class="answer-option">3. පලූට්ඨගිරි</div>
-<div class="answer-option">4. විජිතගාම</div>
-<div class="answer-option">5. මහානාගහුල</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(6, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(6, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(6, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(6, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(6, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 7 -->
-                <div class="question-card">
-                    <div class="question-number">7</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. කඳවුරුනුවර</div>
-<div class="answer-option">2. ජනනාථපුරම්</div>
-<div class="answer-option">3. නයිනතිව්</div>
-<div class="answer-option">4. ජනනාථ මගලම්</div>
-<div class="answer-option">5. පුලස්ථි නගර</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(7, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(7, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(7, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(7, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(7, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 8 -->
-                <div class="question-card">
-                    <div class="question-number">8</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. බටදොඹලෙන</div>
-<div class="answer-option">2. පිදුරංගල</div>
-<div class="answer-option">3. ඛෙලිලෙන</div>
-<div class="answer-option">4. පාහියන්ලෙන</div>
-<div class="answer-option">5. වටවල</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(8, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(8, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(8, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(8, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(8, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 9 -->
-                <div class="question-card">
-                    <div class="question-number">9</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. කදම්භ නදී</div>
-<div class="answer-option">2. ගම්භීර නදී</div>
-<div class="answer-option">3. ක්‍රිෂ්ණ නදී</div>
-<div class="answer-option">4. කප්පකන්දර නදී</div>
-<div class="answer-option">5. ජජ්ජර නදී</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(9, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(9, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(9, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(9, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(9, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 10 -->
-                <div class="question-card">
-                    <div class="question-number">10</div>
-                    <div class="question-text">වෙනස් නම තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. දක්ඛිණ දේශ</div>
-<div class="answer-option">2. උත්තර දේශ</div>
-<div class="answer-option">3. පශ්චිම දේශ</div>
-<div class="answer-option">4. මධ්‍ය දේශ</div>
-<div class="answer-option">5. පාචීන දේශ</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(10, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(10, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(10, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(10, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(10, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 11 -->
-                <div class="question-card">
-                    <div class="question-number">11</div>
-                    <div class="question-text">වෙනස් යුගලය තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. ඩිමුණ්ඩෝ - ඇරිස්ටෝටල්</div>
-<div class="answer-option">2. භූගෝල ශාස්ත්‍රය - ටොලමි</div>
-<div class="answer-option">3. යාල්පාන වෛපවමාලෛ - මයිල්වාකනම්</div>
-<div class="answer-option">4. ලංකාධිපත්‍යය - ෆ්‍රැන්සිස් වැලන්ටයින්</div>
-<div class="answer-option">5. ටොපොග්‍රැෆියා ක්‍රිස්ටියානා - කොස්මස්</div>
->
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(11, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(11, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(11, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(11, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(11, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 12 -->
-                <div class="question-card">
-                    <div class="question-number">12</div>
-                    <div class="question-text">වෙනස් යුගලය තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. ඉන්ඩිකා - මෙගස්තිනීස්</div>
-<div class="answer-option">2. ජිනකාලමාලිනිය – රත්නපඤ්හ හිමි</div>
-<div class="answer-option">3. දේවවාද පුරාණය – ජාකෝමේ ගොන්සාල්වේස්</div>
-<div class="answer-option">4. නැචුරාලිස් හිස්ටොරියා - ප්ලීනි</div>
-<div class="answer-option">5. පර්සියානු යුද්ධ - ටොලමි</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(12, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(12, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(12, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(12, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(12, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 13 -->
-                <div class="question-card">
-                    <div class="question-number">13</div>
-                    <div class="question-text">වෙනස් යුගලය තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. සිංහලේ ආණ්ඩුක්‍රමය – ජෝන් ඩොයිලි</div>
-<div class="answer-option">2. සිල් සිලත් අල් තවාරික් - අබු සයිද්</div>
-<div class="answer-option">3. ලංකාවේ පනස් වසරක් - තෝමස් ස්කිනර්</div>
-<div class="answer-option">4. ලංකාවේ එකොළොස් වසරක් - ෆෝබර්ස්</div>
-<div class="answer-option">5. ලංකාව – වෛකවුන්ට් ටොරින්ටන්</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(13, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(13, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(13, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(13, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(13, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 14 -->
-                <div class="question-card">
-                    <div class="question-number">14</div>
-                    <div class="question-text">වෙනස් යුගලය තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. ලංකාවේ පනස් වසරක් - කෝමස් ස්කිනර්</div>
-<div class="answer-option">2. පෙරිප්ලස් ඔෆ් ද එරිත්‍රියන් සී - ප්ලීනි</div>
-<div class="answer-option">3. ඩිමුණ්ඩෝ - ඇරිස්ටෝටල්</div>
-<div class="answer-option">4. දේවවාද පුරාණය – ජාකෝමේ ගොන්සාල්වේස්</div>
-<div class="answer-option">5. පර්සියානු යුද්ධ - ප්‍රකෝපියස්</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(14, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(14, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(14, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(14, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(14, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 15 -->
-                <div class="question-card">
-                    <div class="question-number">15</div>
-                    <div class="question-text">වෙනස් යුගලය තෝරන්න</div>
-                    
-                    <div class="answers-grid">
-<div class="answer-option">1. පට්ටිනප්පාලෛ - දකුණු ඉන්දීය මූලාශ්‍රයකි.</div>
-<div class="answer-option">2. ඩිමුණ්ඩෝ - ග්‍රීක මූලාශ්‍රයකි.</div>
-<div class="answer-option">3. රාජතරංගනී - කාශ්මීර මූලාශ්‍රයකි.</div>
-<div class="answer-option">4. මණිමේඛලායි - බුරුම මූලාශ්‍රයකි.</div>
-<div class="answer-option">5. සිංහලේ ආණ්ඩුක්‍රමය – ඉංග්‍රීසි මූලාශ්‍රයකි.</div>
-
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(15, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(15, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(15, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(15, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(15, 5)">5</button>
-                    </div>
-                </div>
-
- <!-- Question 16 - Matching Type -->
-                                <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-text">X හා Y තීර ගැළපෙන ලෙස යා කර ඊට ගැළපෙන අක්ෂර සංයෝගය තෝරන්න</div>
-                        <div class="question-number">16</div>
-                    </div>
-                    
-                    <div class="matching-container">
-                        <div class="matching-column">
-                            <h4>X</h4>
-                            <div class="matching-item">1. වේවැල්කැටිය සෙල්ලිපිය</div>
-                            <div class="matching-item">2. කොණ්ඩවට්ටාන් සෙල්ලිපිය</div>
-                            <div class="matching-item">3. හෝපිටිගමු ටැම් ලිපිය</div>
-                            <div class="matching-item">4. ගොඩවාය සෙල්ලිපිය</div>
-                            <div class="matching-item">5. සංගමු විහාර සෙල්ලිපිය</div>
-                        </div>
-                        
-                        <div class="matching-column">
-                            <h4>Y</h4>
-                            <div class="matching-item">(A) වෙළද ගමක කළමනාකරණය පිළිබඳ නීතිරීති</div>
-                            <div class="matching-item">(B) පාලකයන් දෙදෙනෙකු විසින් ඇතිකරගත් සාම ගිවිසුමක්</div>
-                            <div class="matching-item">(C) ගම්වල අධිකරණ පරිපාලනය පිළිබඳ නීතිරීති</div>
-                            <div class="matching-item">(D) ගමක පාලනය පිළිබඳි නීතිරීති</div>
-                            <div class="matching-item">(E) නැව් තොටකින් ලැබුණු තීරුබදු</div>
-                        </div>
-                    </div>
-                    <div class="answer-choices">
-                        <div class="choice-row">
-                            <span><strong>01.</strong> DCAEB</span>
-                            <span><strong>02.</strong> CDEAB</span>
-                            <span><strong>03.</strong> CDAEB</span>
-                            <span><strong>04.</strong> CDBEA</span>
-                            <span><strong>05.</strong> CADBE</span>
-                        </div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(16, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(16, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(16, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(16, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(16, 5)">5</button>
-                    </div>
-                </div>
-
-<!-- Question 17 - Matching Type -->
-                                <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-text">X හා Y තීර ගැළපෙන ලෙස යා කර ඊට ගැළපෙන අක්ෂර සංයෝගය තෝරන්න</div>
-                        <div class="question-number">17</div>
-                    </div>
-                    
-                    <div class="matching-container">
-                        <div class="matching-column">
-                            <h4>X</h4>
-                            <div class="matching-item">1. දුට්ඨගාමිණී</div>
-                            <div class="matching-item">2. වට්ටගාමිණී අභය</div>
-                            <div class="matching-item">3. ධාතුසේන</div>
-                            <div class="matching-item">4. පළමුවන විජයබාහු</div>
-                            <div class="matching-item">5. පළමුවන පරාක්‍රමබාහු</div>
-                        </div>
-                        
-                        <div class="matching-column">
-                            <h4>Y</h4>
-                            <div class="matching-item">(A) රවිදේව</div>
-                            <div class="matching-item">(B) කපිසීස</div>
-                            <div class="matching-item">(C) නන්දිමිත්‍ර</div>
-                            <div class="matching-item">(D) මිගාර</div>
-                            <div class="matching-item">(E) ලංකාපුර</div>
-                        </div>
-                    </div>
-                    <div class="answer-choices">
-                        <div class="choice-row">
-                            <span><strong>01.</strong> BCEAD</span>
-                            <span><strong>02.</strong> CBADE</span>
-                            <span><strong>03.</strong> CBDAE</span>
-                            <span><strong>04.</strong> CBEAD</span>
-                            <span><strong>05.</strong> EBDAC</span>
-                        </div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(17, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(17, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(17, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(17, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(17, 5)">5</button>
-                    </div>
-                </div>
-
-<!-- Question 18 - Matching Type -->
-                                <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-text">X හා Y තීර ගැළපෙන ලෙස යා කර ඊට ගැළපෙන අක්ෂර සංයෝගය තෝරන්න</div>
-                        <div class="question-number">18</div>
-                    </div>
-                    
-                    <div class="matching-container">
-                        <div class="matching-column">
-                            <h4>X</h4>
-                            <div class="matching-item">1. 1562</div>
-                            <div class="matching-item">2. 1594</div>
-                            <div class="matching-item">3. 1602</div>
-                            <div class="matching-item">4. 1630</div>
-                            <div class="matching-item">5. 1638</div>
-                        </div>
-                        
-                        <div class="matching-column">
-                            <h4>Y</h4>
-                            <div class="matching-item">(A) බලන සටන</div>
-                            <div class="matching-item">(B) ගන්නොරුව සටන</div>
-                            <div class="matching-item">(C) මුල්ලේරියා සටන</div>
-                            <div class="matching-item">(D) දන්තුරේ සටන</div>
-                            <div class="matching-item">(E) රන්දෙණිවල සටන</div>
-                        </div>
-                    </div>
-                    <div class="answer-choices">
-                        <div class="choice-row">
-                            <span><strong>01.</strong> CDABE</span>
-                            <span><strong>02.</strong> CDBEA</span>
-                            <span><strong>03.</strong> CDAEB</span>
-                            <span><strong>04.</strong> CBAED</span>
-                            <span><strong>05.</strong> ADBEC</span>
-                        </div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(18, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(18, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(18, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(18, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(18, 5)">5</button>
-                    </div>
-                </div>
-
-<!-- Question 19 - Matching Type -->
-                                <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-text">X හා Y තීර ගැළපෙන ලෙස යා කර ඊට ගැළපෙන අක්ෂර සංයෝගය තෝරන්න</div>
-                        <div class="question-number">19</div>
-                    </div>
-                    
-                    <div class="matching-container">
-                        <div class="matching-column">
-                            <h4>X</h4>
-                            <div class="matching-item">1. රොබට් නොක්ස්</div>
-                            <div class="matching-item">2. ජේම්ස් කෝඩිනර්</div>
-                            <div class="matching-item">3. ජෝන් ඩොයිලි</div>
-                            <div class="matching-item">4. තෝමස් ස්කිනර්</div>
-                            <div class="matching-item">5. එමසන් ටෙනන්ට්</div>
-                        </div>
-                        
-                        <div class="matching-column">
-                            <h4>Y</h4>
-                            <div class="matching-item">(A) සිංහලයේ ආණ්ඩුක්‍රමය පිළිබඳ ලුහුඬු සටහන්</div>
-                            <div class="matching-item">(B) ලංකාව: දිවයින පිළිබඳ විස්තරයක්</div>
-                            <div class="matching-item">(C) ලංකාවේ පනස් වසරක්</div>
-                            <div class="matching-item">(D) එදා හෙළදිව</div>
-                            <div class="matching-item">(E) ලංකාව පිළිබඳ විස්තරයක්</div>
-                        </div>
-                    </div>
-                    <div class="answer-choices">
-                        <div class="choice-row">
-                            <span><strong>01.</strong> DABCE</span>
-                            <span><strong>02.</strong> DEABC</span>
-                            <span><strong>03.</strong> EDACB</span>
-                            <span><strong>04.</strong> DBACE</span>
-                            <span><strong>05.</strong> DEACB</span>
-                        </div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(19, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(19, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(19, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(19, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(19, 5)">5</button>
-                    </div>
-                </div>
-
-<!-- Question 20 - Matching Type -->
-                                <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-text">X හා Y තීර ගැළපෙන ලෙස යා කර ඊට ගැළපෙන අක්ෂර සංයෝගය තෝරන්න</div>
-                        <div class="question-number">20</div>
-                    </div>
-                    
-                    <div class="matching-container">
-                        <div class="matching-column">
-                            <h4>X</h4>
-                            <div class="matching-item">1. ඉරක්කාමම් වැව</div>
-                            <div class="matching-item">2. තිස්සමහාරාම වැව</div>
-                            <div class="matching-item">3. කන්තලේ වැව</div>
-                            <div class="matching-item">4. කලා වැව</div>
-                            <div class="matching-item">5. යෝධ වැව</div>
-                        </div>
-                        
-                        <div class="matching-column">
-                            <h4>Y</h4>
-                            <div class="matching-item">(A) විලියම් ග්රෙගරි</div>
-                            <div class="matching-item">(B) හෙන්රි වෝඩ්</div>
-                            <div class="matching-item">(C) වෙස්ට් රිජ්වේ</div>
-                            <div class="matching-item">(D) ආතර් ගෝර්ඩන්</div>
-                            <div class="matching-item">(E) හර්ක්යුලස් රොබින්සන්</div>
-                        </div>
-                    </div>
-                    <div class="answer-choices">
-                        <div class="choice-row">
-                            <span><strong>01.</strong> ADECB</span>
-                            <span><strong>02.</strong> BAECD</span>
-                            <span><strong>03.</strong> BEACD</span>
-                            <span><strong>04.</strong> EABCD</span>
-                            <span><strong>05.</strong> BACED</span>
-                        </div>
-                    </div>
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(20, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(20, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(20, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(20, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(20, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 21 -->
-                <div class="question-card">
-                    <div class="question-number">21</div>
-                    <div class="question-text">නිවැරදි ප්‍රකාශ හඳුනාගෙන ඊට ගැළපෙන සංයෝගය නම් කරන්න</div>
-					<div class="question-text">ලක්දිව බුද්ධාගමේ විකාශනය සම්බන්ධයෙන් පහත දැක්වෙන කවර ප්‍රකාශය/ප්‍රකාශ නිවැරදි වේ ද</div>
-                    
-<div class="answer-option">1. A - දේවානම්පියතිස්ස රජුගේ පාලන සමයේ දී භික්ෂු භික්ෂුණී ශාසනය පිහිටුවීම</div>
-<div class="answer-option">2. B -  වට්ටගාමිණි රජුගේ රාජ්‍ය කාලයේ දී ත්‍රිපිටකය ග්‍රන්ථාරූඪ කිරීම</div>
-<div class="answer-option">3. C -  සිරිමෙවන් රජුගේ පාලන සමයේ දී දන්ත ධාතුන් වහන්සේ වැඩම කිරීම</div>
-<div class="answer-option">4. D -  මහා පරාක්‍රමබාහු රජුගේ රාජ්‍ය සමයේ දී ත්‍රෛනිකාය සමගි කිරීම.</div>
-<div class="answer-option">(1)AB නිවැරදිය     (2)BC නිවැරදිය     (3)CD නිවැරදිය     (4)ACනිවැරදිය    (5)1ක් හෝ 2ට වැඩි ගණනක් නිවැරදි ය</div>
-
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(21, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(21, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(21, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(21, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(21, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 22 -->
-                <div class="question-card">
-                    <div class="question-number">22</div>
-                    <div class="question-text">නිවැරදි ප්‍රකාශ හඳුනාගෙන ඊට ගැළපෙන සංයෝගය නම් කරන්න</div>
-				<div class="question-text">පළමුවන විජයබාහු රජුගේ කාර්ය සංසිද්ධීන් පිළිබඳව පහත දැක්වෙන කවර ප්‍රකාශය/ ප්‍රකාශය නිවැරදි වේ ද ?</div>
-                    
-<div class="answer-option">1. A - චෝල ආධිපත්‍යයෙන් ශ්‍රී ලංකාව නිදහස් කර ගැනීම.</div>
-<div class="answer-option">2. B -  රජකම ලැබීමට පෙර ඔහු ගත කළ ජීවිතය පිළිබඳ ලුහුඬු විස්තරයක් පනාකඩු තඹ සන්නසෙහි සඳහන් වීම</div>
-<div class="answer-option">3. C -  තෝපා වැව ඉදිකිරීම.</div>
-<div class="answer-option">4. D -  චීනය සමඟ මිත්‍ර සම්බන්ධතා පැවැත්වීම.</div>
-<div class="answer-option">(1)AB නිවැරදිය     (2)BC නිවැරදිය     (3)CD නිවැරදිය     (4)ACනිවැරදිය    (5)1ක් හෝ 2ට වැඩි ගණනක් නිවැරදි ය</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(22, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(22, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(22, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(22, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(22, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 23 -->
-                <div class="question-card">
-                    <div class="question-number">23</div>
-                    <div class="question-text">නිවැරදි ප්‍රකාශ හඳුනාගෙන ඊට ගැළපෙන සංයෝගය නම් කරන්න</div>
-				<div class="question-text">ශ්‍රී ලංකාවේ විදේශ වෙළඳාම පිළිබඳව පහත දැක්වෙන කවර ප්‍රකාශය/ ප්‍රකාශ නිවැරදි වේ ද?</div>
-                    
-<div class="answer-option">1. A - පොළොන්නරු යුගයේ දී ශ්‍රී ලංකාව සහ පෘතුගාලය අතර සෘජු වෙළෙඳ සම්බන්ධතා පැවැත්වීම.</div>
-<div class="answer-option">2. B -  ශ්‍රී ලංකාව ඉන්දියාවට ආසන්නව පිහිටීම නිසා දෙරට අතර වෙළෙඳ සම්බන්ධතා වලට මග පෑදීම.</div>
-<div class="answer-option">3. C -  මහාතිත්ථ අනුරාධපුර යුගයේ දී ඉතා වැදගත් වරාය වීම.</div>
-<div class="answer-option">4. D -  මහනුවර යුගයේ දී ශ්‍රී ලංකාවෙන් චීනයට රෙදිපිළි අශ්වයින් සහ පිඟන් භාණ්ඩ නිර්යාත කිරීම.</div>
-<div class="answer-option">(1)AB නිවැරදිය     (2)BC නිවැරදිය     (3)CD නිවැරදිය     (4)ACනිවැරදිය    (5)1ක් හෝ 2ට වැඩි ගණනක් නිවැරදි ය</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(23, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(23, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(23, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(23, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(23, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 24 -->
-                <div class="question-card">
-                    <div class="question-number">24</div>
-                    <div class="question-text">නිවැරදි ප්‍රකාශ හඳුනාගෙන ඊට ගැළපෙන සංයෝගය නම් කරන්න</div>
-				<div class="question-text">පුර්තුගීසි පාලනයේ ප්‍රතිඵල සම්බන්ධයෙන් පහත දැක්වෙන කවර ප්‍රකාශය /ප්‍රකාශ නිවැරදි වේ ද?</div>					
-                    
-<div class="answer-option">1. A - තෝම්බු සම්පාදනය කිරීම.</div>
-<div class="answer-option">2. B -  රෝම ලන්දේසි නීතිය හඳුන්වාදීම.</div>
-<div class="answer-option">3. C -  රෝමානු කතෝලික ආගම හඳුන්වාදීම.</div>
-<div class="answer-option">4. D -  වතු ආර්ථිකය තහවුරු වීම.</div>
-<div class="answer-option">(1)AB නිවැරදිය     (2)BC නිවැරදිය     (3)CD නිවැරදිය     (4)ACනිවැරදිය    (5)1ක් හෝ 2ට වැඩි ගණනක් නිවැරදි ය</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(24, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(24, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(24, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(24, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(24, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 25 -->
-                <div class="question-card">
-                    <div class="question-number">25</div>
-                    <div class="question-text">නිවැරදි ප්‍රකාශ හඳුනාගෙන ඊට ගැළපෙන සංයෝගය නම් කරන්න</div>
-				<div class="question-text">බ්‍රිතාන්‍ය යටත් විජිත යුගයේදී මහා මාර්ග හා දුම්රිය මාර්ග ඉදි කිරීම සම්බන්ධයෙන් පහත දැක්වෙන කවර ප්‍රකාශය/ ප්‍රකාශ නිවැරදි වේ ද?</div>					
-					                    
-<div class="answer-option">1. A - මහා මාර්ග සහ දුම්රිය මාර්ග ඉදිකිරීම වතු ආර්ථිකයේ ව්‍යාප්තියට තුඩු දුන් ප්‍රධාන සාධකයකි.</div>
-<div class="answer-option">2. B -  එඩ්වඩ් බාර්න්ස් ආණ්ඩුකාරවරයා විසින් කොළඹ- මහනුවර මාර්ගයේ ඉදිකරනු ලැබීය.</div>
-<div class="answer-option">3. C -  කොළඹ- මහනුවර දුම්රිය මාර්ගය ශ්‍රී ලංකාවේ ප්‍රථම දුම්රිය මාර්ගය විය.</div>
-<div class="answer-option">4. D -  වතු ආර්ථිකයේ ව්‍යෘප්තිය හා සමගාමීව ඇති වූ ප්‍රවාහන වර්ධනය ශ්‍රී ලංකාවේ ආර්ථික විපර්යාසයේ වැදගත්ම සිදුවීමයි.</div>
-<div class="answer-option">(1)AB නිවැරදිය     (2)BC නිවැරදිය     (3)CD නිවැරදිය     (4)ACනිවැරදිය    (5)1ක් හෝ 2ට වැඩි ගණනක් නිවැරදි ය</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(25, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(25, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(25, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(25, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(25, 5)">5</button>
-                    </div>
-                </div>
-				 <!-- Question 26 -->
-                <div class="question-card">
-                    <div class="question-number">26</div>
-<div class="question-text">පළමුවන පරාක්‍රමබාහු රජුගේ විදේශ සම්බන්ධතා සම්බන්ධ වැරදි ප්‍රකාශය තෝරන්න</div>
-                    
-<div class="answer-option">1. බුරුම ආක්‍රමණය</div>
-<div class="answer-option">2. දකුණු ඉන්දියාවේ පාන්ඩ්‍ය දේශයට කළ ආක්‍රමණය</div>
-<div class="answer-option">3. කාම්බෝජය සමඟ මිත්‍ර සම්බන්ධතා</div>
-<div class="answer-option">4. අග්නිදිග ආසියාතික රටවල් සමඟ ආගමික සම්බන්ධතා</div>
-<div class="answer-option">5. චීනය සමග වෙළෙඳ සම්බන්ධතා</div>
-
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(26, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(26, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(26, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(26, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(26, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 27 -->
-                <div class="question-card">
-                    <div class="question-number">27</div>
-<div class="question-text">නායක්කර් පෙළපත සම්බන්ධ වැරදි ප්‍රකාශය තෝරන්න</div>
-                    
-<div class="answer-option">1. ප්‍රථම පාලකයා විජය රාජසිංහ රජුය .</div>
-<div class="answer-option">2. නායක්කර් පෙළපතේ රජවරු දකුණු ඉන්දීය පවුල් සමග විවාහ සම්බන්ධතා තවදුරටත් පැවැත්වූහ.</div>
-<div class="answer-option">3. කීර්ති ශ්‍රී රාජසිංහ රජු බුද්ධාගම සහ බෞද්ධ සංස්කෘතියේ ශ්‍රේෂ්ඨ අනුග්‍රහයකයෙකි.</div>
-<div class="answer-option">4. අවසාන නායක්කර් පාලකයා වූයේ නරේන්ද්‍රසිංහ රජුය.</div>
-<div class="answer-option">5. රාජාධිරාජසිංහ රජුගේ පාලන සමයේ දී බ්‍රිතාන්‍යයන් විසින් මුහුදුබඩ ප්‍රදේශ අත්පත් කරගනු ලැබීය.</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(27, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(27, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(27, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(27, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(27, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 28 -->
-                <div class="question-card">
-                    <div class="question-number">28</div>
-<div class="question-text">සීතාවක රාජධානියේ බල වර්ධනයේ ප්‍රධාන අවස්ථා පිළිබඳ වැරදි ප්‍රකාශය</div>
-                    
-<div class="answer-option">1. 1521 දී විජයබා කොල්ලය</div>
-<div class="answer-option">2. 1538 දී මායාදුන්නේ විසින් රයිගම සීතාවක රාජ්‍යයට ඈඳා ගනු ලැබීම</div>
-<div class="answer-option">3. 1582 දී රාජසිංහ රජු විසින් උඩරට ප්‍රදේශ අල්ලා ගනු ලැබීම</div>
-<div class="answer-option">4. 1562 දී පුර්තුගීසින් ට විරුද්ධව මුල්ලේරියා සටන ජය ගැනීම.</div>
-<div class="answer-option">5. 1604 දී යාපනය යටත් කර ගැනීම</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(28, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(28, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(28, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(28, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(28, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 29 -->
-                <div class="question-card">
-                    <div class="question-number">29</div>
-<div class="question-text">ලන්දේසින් සහ උඩරට රජුන් අතර පැවති සම්බන්ධතා පිළිබඳ වැරදි ප්‍රකාශය</div>
-                    
-<div class="answer-option">1. 1602 දී ලන්දේසින් පළමුවන විමලධර්මසූරිය රජු හමුවීම.</div>
-<div class="answer-option">2. ලන්දේසීන් උඩරට රාජධානිය ආක්‍රමණය කිරීම. සහ 1766 ගිවිසුම</div>
-<div class="answer-option">3. ලන්දේසීන් උඩරට රාජධානිය අල්ලා ගැනීම</div>
-<div class="answer-option">4. 1638 ගිවිසුම .</div>
-<div class="answer-option">5. සියමෙන් උපසම්පදාව ගෙන ඒම සඳහා ලන්දේසීන් උඩරට රජතුමාට සහයෝගය දැක්වීම</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(29, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(29, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(29, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(29, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(29, 5)">5</button>
-                    </div>
-                </div> <!-- Question 30 -->
-                <div class="question-card">
-                    <div class="question-number">30</div>
-<div class="question-text">දහනව වන සියවසේ ඇති වූ බෞද්ධ පුනර්ජීවනය සම්බන්ධ වැරදි ප්‍රකාශය</div>
-                    
-<div class="answer-option">1. බෞද්ධ පරම විඥානාර්ථ සමාගම ආරම්භ කිරීම.</div>
-<div class="answer-option">2. උපසම්පදාව යළි පිහිටුවීම.</div>
-<div class="answer-option">3. බෞද්ධ අධ්‍යාපනය දියුණුවීම</div>
-<div class="answer-option">4. බෞද්ධ කොඩිය සකස් කිරීම</div>
-<div class="answer-option">5. වෙසක් පෝය දිනය රජයේ නිවාඩු දිනයක් බවට ප්‍රකාශ කිරීම.</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(30, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(30, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(30, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(30, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(30, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 31 -->
-                <div class="question-card">
-                    <div class="question-number">31</div>
-<div class="question-text">සද්ධාතිස්ස රජුගේ පුතුන් හතර දෙනාගේ නම් දැක්වෙන්නේ මෙයින් කවර ලැයිස්තුවේ ද?</div>
-                    
-<div class="answer-option">1. ථූලත්ථන,පුලහත්ථ,ලජ්ජිතිස්ස, වට්ටගාමිණි</div>
-<div class="answer-option">2. ථූලත්ථන, ලජ්ජිතිස්ස, ඛල්ලාඨනාග, පුලහත්ථ</div>
-<div class="answer-option">3. ථූලත්ථන,ලජ්ජිතිස්ස, ඛල්ලාටනාග ,වට්ටගාමිණි</div>
-<div class="answer-option">4. ථූලත්ථන, ඛල්ලාඨනාග, පුලහත්ථ, වට්ටගාමිණි</div>
-<div class="answer-option">5. ලජ්ජිතිස්ස, වට්ටගාමිණී, පුලහත්ථ, ඛල්ලාඨනාග</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(31, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(31, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(31, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(31, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(31, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 32 -->
-                <div class="question-card">
-                    <div class="question-number">32</div>
-<div class="question-text">පළමුවන පරාක්‍රමබාහු රජු සහ දෙවන ගජබාහු රජු අතර පැවැති ආරවුල සමථයකට පත් කිරීම පිළිබඳ ඇති කර ගන්නා ලද ගිවිසුමක වාර්තාව සඳහන් වන්නේ පහත දැක්වෙන කවර අභිලේඛනයේහි ද?</div>
-                    
-<div class="answer-option">1. දෙවනගල පර්වත ලිපිය</div>
-<div class="answer-option">2. ගල්විහාර ලිපිය</div>
-<div class="answer-option">3. අඹගමු ලිපිය</div>
-<div class="answer-option">4. සංගමු විහාර සෙල්ලිපිය</div>
-<div class="answer-option">5. මිනිපේ සෙල්ලිපිය</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(32, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(32, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(32, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(32, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(32, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 33 -->
-                <div class="question-card">
-                    <div class="question-number">33</div>
-<div class="question-text">බ්‍රිතාන්‍ය පාලන යුගයේදී වාරිමාර්ග සංවර්ධනය සඳහා කටයුතු කළ ආණ්ඩුකාරවරුන් හතර දෙනකුගේ නම් පිළිවෙළින් සදහන් වන්නේ පහත දැක්වෙන කවර ලැයිස්තුවේ ද?</div>
-                    
-<div class="answer-option">1. ප්රෙඩ්රික් නෝර්ත්, තෝමස් මෙට්ලන්ඩ්, රොබට් බ්රවුන්රිග්, හෙන්රි වෝඩ්</div>
-<div class="answer-option">2. ෆෙඩ්රික් නෝර්ත්, එඩ්වඩ් බාන්ස්, හෙන්රි වෝඩ්, ටොරින්ටන් සාමි</div>
-<div class="answer-option">3. හෙන්රි වෝඩ්, ටොරින්ටන් සාමි, හර්කියුලස් රොබින්සන්, ජේම්ස් ලොන්ඩන්</div>
-<div class="answer-option">4. හෙන්රි වෝඩ්, විලියම් ග්‍රෙගරි, ආතල් හැව්ලොක්, ආතර් ගෝර්ඩන්</div>
-<div class="answer-option">5. හෙන්රි වෝඩ්, හර්කියුලිස් රොබින්සන්, විලියම් ග්‍රෙගරි, ආතර් ගෝර්ඩන්</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(33, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(33, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(33, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(33, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(33, 5)">5</button>
-                    </div>
-                </div> <!-- Question 34 -->
-                <div class="question-card">
-                    <div class="question-number">34</div>
-<div class="question-text">රාජ්‍ය පාලන මධ්‍යස්ථාන නිරිත දිගට සංක්‍රමණය වීමෙන් නිවැරදි අනුපිළිවෙල දැක්වෙන්නේ මෙයින් කවර ලැයිස්තුවේ ද?</div>
-                    
-<div class="answer-option">1. කුරුණෑගල ,දඹදෙණිය, යාපහුව, ගම්පොළ ,කෝට්ටේ</div>
-<div class="answer-option">2. දඹදෙණිය, කුරුණෑගල, යාපහුව, ගම්පොල ,කෝට්ටේ</div>
-<div class="answer-option">3. දඹදෙණිය, යාපහුව, කුරුණෑගල, ගම්පොල, කෝට්ටේ</div>
-<div class="answer-option">4. දඹදෙණිය, ගම්පොල, යාපහුව, කුරුණෑගල, කෝට්ටේ</div>
-<div class="answer-option">5. දඹදෙණිය, යාපහුව, ගම්පොල, කුරුණෑගල, කෝට්ටේ</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(34, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(34, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(34, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(34, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(34, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 35 -->
-                <div class="question-card">
-                    <div class="question-number">35</div>
-<div class="question-text">සීතාවක ඉදිකරන ලද හින්දු දේවාලය කුමක්ද?</div>
-                    
-<div class="answer-option">1. තිරුකේතීෂ්වරම්</div>
-<div class="answer-option">2. මුන්නේශ්වරම්</div>
-<div class="answer-option">3. කෝනේෂ්වරම්</div>
-<div class="answer-option">4. බැරැන්ඩි</div>
-<div class="answer-option">5. කන්දසාමි</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(35, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(35, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(35, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(35, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(35, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 36 -->
-                <div class="question-card">
-                    <div class="question-number">36</div>
-<div <div class="question-text">නිවැරදි හා වැරදි ප්‍රකාශ හඳුනාගෙන ගැළපෙන පිළිතුර තෝරන්න</div>
-
-<div class="answers-grid">
-    <div class="answer-option">පළමු ප්‍රකාශය-මිහිඳු මාහිමියන්‌ සහ එම පිරිස තවත්‌ තිදෙනකු පිළිබඳව ක්‍රිස්තු වර්ෂ පළමුවන සියවසට පමණ අයත්‌ මිහින්තලේ සෙල්‌ ලිපියක සඳහන්‌ වේ.</div>
-    <div class="answer-option">දෙවන ප්‍රකාශය-මේ අනුව "මිහිඳු මාහිමි ප්‍රධාන ධර්මදූත පිරිස විසින්‌ ශ්‍රී ලංකාවේ බුදු සසුන පිහිටුවන ලද්දේය " යන වෘත්තාන්තය බුදුසසුන පිහිටුවනු ලැබූ කාලයට අවුරුදු තුන්සියයකට පමණ පසු ලියන ලද සෙල්‌ලිපියකින්‌ තහවුරු වේ.</div>
-</div>
-    <div class="answer-option">(1)පළමු ප්‍රකාශය නිවැරදි වන අතර දෙවැන්න වැරදිය</div>
-    <div class="answer-option">(2)පළමු හා දෙවන ප්‍රකාශ නිවැරදිය</div>
-    <div class="answer-option">(3)පළමු හා දෙවන ප්‍රකාශ වැරදිය</div>
-    <div class="answer-option">(4)පළමු ප්‍රකාශය වැරදි වන අතර දෙවැන්න නිවැරදි ය</div>
-    <div class="answer-option">(5)පළමු ප්‍රකාශය නිවැරදි වන අතර එය දෙවැන්නෙන් මනාව පහදා දෙයි</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(36, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(36, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(36, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(36, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(36, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 37 -->
-                <div class="question-card">
-                    <div class="question-number">37</div>
-<div class="question-text">නිවැරදි හා වැරදි ප්‍රකාශ හඳුනාගෙන ගැළපෙන පිළිතුර තෝරන්න</div>
-
-<div class="answers-grid">
-    <div class="answer-option">පළමු ප්‍රකාශය-පළමුවන රාජ රාජ රජු ගේ විරුද නාමයක්‌ අනුව අනුරාධපුර ජනනාතමංගලම්‌ යනුවෙන්‌ නම්‌ කරන ලදී.</div>
-    <div class="answer-option">දෙවන ප්‍රකාශය-චෝලයන්‌ විසින්‌ මෙරට පාලනය කරන ලද ප්‍රදේශය මුම්මුඩි සෝල මණ්ඩලම්‌ නමින්‌ හැඳින්වේ.</div>
-</div>
-    <div class="answer-option">(1)පළමු ප්‍රකාශය නිවැරදි වන අතර දෙවැන්න වැරදිය</div>
-    <div class="answer-option">(2)පළමු හා දෙවන ප්‍රකාශ නිවැරදිය</div>
-    <div class="answer-option">(3)පළමු හා දෙවන ප්‍රකාශ වැරදිය</div>
-    <div class="answer-option">(4)පළමු ප්‍රකාශය වැරදි වන අතර දෙවැන්න නිවැරදි ය</div>
-    <div class="answer-option">(5)පළමු ප්‍රකාශය නිවැරදි වන අතර එය දෙවැන්නෙන් මනාව පහදා දෙයි</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(37, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(37, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(37, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(37, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(37, 5)">5</button>
-                    </div>
-                </div> <!-- Question 38 -->
-                <div class="question-card">
-                    <div class="question-number">38</div>
-<div class="question-text">නිවැරදි හා වැරදි ප්‍රකාශ හඳුනාගෙන ගැළපෙන පිළිතුර තෝරන්න</div>
-
-<div class="answers-grid">
-    <div class="answer-option">පළමු ප්‍රකාශය-ලන්දේසීහු ශ්‍රී ලංකාවේ වෙළඳ ආධිපත්‍යයට නතු කර ගැනීම සඳහා දිවයිනේ බොහෝ වරායවල්වල බලය පැතිර වූහ.</div>
-    <div class="answer-option">දෙවන ප්‍රකාශය-1762 දී ඉංග්‍රීසි පෙරදිග ඉන්දීය වෙළද සමාගම විසින්‌ ශ්‍රී ලංකාවට එවන ලද ප්‍රථම දුතයා වූයේ ජෝන්‌ පයිබස්‌ ය.</div>
-</div>
-    <div class="answer-option">(1)පළමු ප්‍රකාශය නිවැරදි වන අතර දෙවැන්න වැරදිය</div>
-    <div class="answer-option">(2)පළමු හා දෙවන ප්‍රකාශ නිවැරදිය</div>
-    <div class="answer-option">(3)පළමු හා දෙවන ප්‍රකාශ වැරදිය</div>
-    <div class="answer-option">(4)පළමු ප්‍රකාශය වැරදි වන අතර දෙවැන්න නිවැරදි ය</div>
-    <div class="answer-option">(5)පළමු ප්‍රකාශය නිවැරදි වන අතර එය දෙවැන්නෙන් මනාව පහදා දෙයි</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(38, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(38, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(38, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(38, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(38, 5)">5</button>
-                    </div>
-                </div>
-				<!-- Question 39 -->
-                <div class="question-card">
-                    <div class="question-number">39</div>
-<div class="question-text">නිවැරදි හා වැරදි ප්‍රකාශ හඳුනාගෙන ගැළපෙන පිළිතුර තෝරන්න</div>
-
-<div class="answers-grid">
-    <div class="answer-option">පළමු ප්‍රකාශය-සෙනරත්‌ රජු මහනුවර රාජධානියේ ආරම්භක පාලකයාය.</div>
-    <div class="answer-option">දෙවන ප්‍රකාශය-නරේන්ද්‍රසිංහ රජු මහනුවර රාජධානියේ අවසාන පාලකයා ය.</div>
-</div>
-    <div class="answer-option">(1)පළමු ප්‍රකාශය නිවැරදි වන අතර දෙවැන්න වැරදිය</div>
-    <div class="answer-option">(2)පළමු හා දෙවන ප්‍රකාශ නිවැරදිය</div>
-    <div class="answer-option">(3)පළමු හා දෙවන ප්‍රකාශ වැරදිය</div>
-    <div class="answer-option">(4)පළමු ප්‍රකාශය වැරදි වන අතර දෙවැන්න නිවැරදි ය</div>
-    <div class="answer-option">(5)පළමු ප්‍රකාශය නිවැරදි වන අතර එය දෙවැන්නෙන් මනාව පහදා දෙයි</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(39, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(39, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(39, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(39, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(39, 5)">5</button>
-                    </div>
-                </div>
-
-                <!-- Question 40 -->
-                <div class="question-card">
-                    <div class="question-number">40</div>
-<div class="question-text">නිවැරදි හා වැරදි ප්‍රකාශ හඳුනාගෙන ගැළපෙන පිළිතුර තෝරන්න</div>
-
-<div class="answers-grid">
-    <div class="answer-option">පළමු ප්‍රකාශය-ශ්‍රී ලංකාවේ ආණ්ඩුක්‍රම විකාශන ඉතිහාසයේ වැදගත්‌ සන්ධිස්ථාන අතුරෙන්‌ එකක්‌ වන්නේ ඩොනමෝර්‌ ප්‍රතිසංස්කරණ යි.</div>
-    <div class="answer-option">දෙවන ප්‍රකාශය-ඩොනමෝර්‌ කොමසාරිස්වරු වර්ෂ 1947 දී ශ්‍රී ලංකාවට පැමිණියහ.</div>
-</div>
-    <div class="answer-option">(1)පළමු ප්‍රකාශය නිවැරදි වන අතර දෙවැන්න වැරදිය</div>
-    <div class="answer-option">(2)පළමු හා දෙවන ප්‍රකාශ නිවැරදිය</div>
-    <div class="answer-option">(3)පළමු හා දෙවන ප්‍රකාශ වැරදිය</div>
-    <div class="answer-option">(4)පළමු ප්‍රකාශය වැරදි වන අතර දෙවැන්න නිවැරදි ය</div>
-    <div class="answer-option">(5)පළමු ප්‍රකාශය නිවැරදි වන අතර එය දෙවැන්නෙන් මනාව පහදා දෙයි</div>
-
-                    
-                    <div class="answer-buttons">
-                        <button class="answer-btn" onclick="selectAnswer(40, 1)">1</button>
-                        <button class="answer-btn" onclick="selectAnswer(40, 2)">2</button>
-                        <button class="answer-btn" onclick="selectAnswer(40, 3)">3</button>
-                        <button class="answer-btn" onclick="selectAnswer(40, 4)">4</button>
-                        <button class="answer-btn" onclick="selectAnswer(40, 5)">5</button>
-                    </div>
-                </div>
+        <!-- Question Section -->
+        <div id="mainContent">
+            <div class="loading">
+                <div class="loading-text">පූරණය වෙමින්...</div>
             </div>
-        </div>
-
-        <div class="copy-section" id="copySection">
-            <button class="submit-btn" onclick="submitToWhatsApp()">📱 පිළිතුරු පරීක්ෂාව සඳහා යොමු කරන්න</button>
-            <button class="copy-result-btn" onclick="copyResult()">📋 ප්‍රතිඵල පිටපත් කරන්න</button>
-            <div id="statusMessage" class="status-message"></div>
         </div>
     </div>
 
+    <!-- Popup -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <div class="popup-title" id="popupTitle"></div>
+            <div class="popup-explanation" id="popupExplanation"></div>
+            <button class="popup-ok-btn" onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        let questions = {};
+        const SUPABASE_URL = 'https://ceootocdixspqgcepyiv.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlb290b2NkaXhzcHFnY2VweWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MzQ3NjYsImV4cCI6MjA3OTMxMDc2Nn0.djUWz06WpVRi0QpsrnoZvDaA9DdE720r-qXbYcb78co';
+        
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let questions = [];
+        let currentQuestionIndex = -1;
+        let answeredCount = 0;
+        let correctCount = 0;
+        let selectedAnswer = null;
 
-        function selectAnswer(questionNumber, answerNumber) {
-            // Find the question card by matching question number
-            const allCards = document.querySelectorAll('.question-card');
-            let targetCard = null;
+        async function fetchQuestions() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('erp')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                // Shuffle questions
+                questions = data.sort(() => Math.random() - 0.5);
+                
+                if (questions.length > 0) {
+                    currentQuestionIndex = 0;
+                    displayQuestion();
+                } else {
+                    showCompleted();
+                }
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="loading">
+                        <div class="loading-text" style="color: #DC143C;">දෝෂයක් සිදුවී ඇත</div>
+                    </div>
+                `;
+            }
+        }
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showCompleted();
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            selectedAnswer = null;
+
+            const adviceHtml = question.advice ? `<div class="advice-box">💡 ${question.advice}</div>` : '';
+
+            document.getElementById('mainContent').innerHTML = `
+                <div class="question-section">
+                    ${adviceHtml}
+                    <div class="question-text">${question.qs}</div>
+                    <div class="answers-grid">
+                        ${[1, 2, 3, 4, 5].map(num => `
+                            <button class="answer-btn" onclick="handleAnswer(${num})">${num}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function parseAnswer(answerText) {
+            const match = answerText.match(/^\((\d+)\)\s*(.*)/s);
+            if (match) {
+                return {
+                    correctOption: parseInt(match[1]),
+                    explanation: match[2].trim()
+                };
+            }
+            return { correctOption: null, explanation: answerText };
+        }
+
+        function handleAnswer(selectedOption) {
+            if (selectedAnswer !== null) return;
             
-            allCards.forEach(card => {
-                const cardNumber = parseInt(card.querySelector('.question-number').textContent);
-                if (cardNumber === questionNumber) {
-                    targetCard = card;
+            selectedAnswer = selectedOption;
+            
+            // Disable all buttons and highlight selected
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index + 1 === selectedOption) {
+                    btn.classList.add('selected');
                 }
             });
+
+            const currentQuestion = questions[currentQuestionIndex];
+            const { correctOption, explanation } = parseAnswer(currentQuestion.answer);
+            const isCorrect = selectedOption === correctOption;
             
-            if (targetCard) {
-                const buttons = targetCard.querySelectorAll('.answer-btn');
-                buttons.forEach(btn => btn.classList.remove('selected'));
-                buttons[answerNumber - 1].classList.add('selected');
-                
-                questions[questionNumber] = answerNumber;
+            answeredCount++;
+            if (isCorrect) {
+                correctCount++;
             }
+            
+            updateStats();
+            showPopup(isCorrect, explanation);
         }
 
-        function submitToWhatsApp() {
-            const userCode = document.getElementById('userCode').value.trim();
-
-            if (!userCode) {
-                showStatus('කරුණාකර කේත අංකය ඇතුළත් කරන්න', 'error');
-                return;
-            }
-
-            // Format: Subject + Code (e.g., "ශ්‍රී ලංකා ඉතිහාසය-043")
-            let messageText = `ශ්‍රී ලංකා ඉතිහාසය-${userCode}\n\n`;
+        function showPopup(isCorrect, explanation) {
+            const popup = document.getElementById('popup');
+            const title = document.getElementById('popupTitle');
+            const explanationDiv = document.getElementById('popupExplanation');
             
-            let hasAnswers = false;
-            for (let i = 1; i <= 40; i++) {
-                if (questions[i]) {
-                    messageText += `ප්‍රශ්නය ${i}: ${questions[i]}\n`;
-                    hasAnswers = true;
-                }
-            }
-
-            if (!hasAnswers) {
-                showStatus('කරුණාකර අවම වශයෙන් එක් ප්‍රශ්නයකට පිළිතුරක් තෝරන්න', 'error');
-                return;
-            }
-
-            // Copy to clipboard first
-            navigator.clipboard.writeText(messageText).then(() => {
-                showStatus('පිළිතුරු පිටපත් කර WhatsApp වෙත යොමු කරමින්... 📱', 'success');
-                
-                // Open WhatsApp with pre-filled message
-                const phoneNumber = '94716637804';
-                const encodedMessage = encodeURIComponent(messageText);
-                const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-                
-                // Open WhatsApp in a new window/tab
-                window.open(whatsappURL, '_blank');
-            }).catch(() => {
-                showStatus('දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න', 'error');
-            });
+            title.textContent = isCorrect ? '✓ පිළිතුරු නිවැරදියි' : '✗ පිළිතුර වැරදියි';
+            title.className = isCorrect ? 'popup-title correct' : 'popup-title incorrect';
+            
+            explanationDiv.textContent = (isCorrect ? 'වැඩි විස්තර: ' : 'හේතුව: ') + explanation;
+            
+            popup.classList.add('show');
         }
 
-        function copyResult() {
-            const userCode = document.getElementById('userCode').value.trim();
-
-            if (!userCode) {
-                showStatus('කරුණාකර කේත අංකය ඇතුළත් කරන්න', 'error');
-                return;
-            }
-
-            // Format: Subject + Code (e.g., "ශ්‍රී ලංකා ඉතිහාසය-043")
-            let copyText = `ශ්‍රී ලංකා ඉතිහාසය-${userCode}\n\n`;
-            
-            let hasAnswers = false;
-            for (let i = 1; i <= 40; i++) {
-                if (questions[i]) {
-                    copyText += `ප්‍රශ්නය ${i}: ${questions[i]}\n`;
-                    hasAnswers = true;
-                }
-            }
-
-            if (!hasAnswers) {
-                showStatus('කරුණාකර අවම වශයෙන් එක් ප්‍රශ්නයකට පිළිතුරක් තෝරන්න', 'error');
-                return;
-            }
-
-            navigator.clipboard.writeText(copyText).then(() => {
-                showStatus('ප්‍රතිඵල සාර්ථකව පිටපත් කරන ලදි! 📋', 'success');
-            }).catch(() => {
-                showStatus('පිටපත් කිරීමේ දෝෂයක් ඇතිවිය', 'error');
-            });
+        function closePopup() {
+            document.getElementById('popup').classList.remove('show');
+            currentQuestionIndex++;
+            displayQuestion();
         }
 
-        function showStatus(message, type) {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.textContent = message;
-            statusDiv.className = `status-message ${type}`;
+        function updateStats() {
+            document.getElementById('normalValue').textContent = `${correctCount}/${answeredCount}`;
             
-            setTimeout(() => {
-                statusDiv.style.opacity = '0';
-                statusDiv.style.transform = 'translateY(10px)';
-            }, 3000);
+            const percentage = answeredCount > 0 ? ((correctCount / answeredCount) * 100).toFixed(1) : 0;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            
+            const outOf40 = answeredCount > 0 ? ((correctCount / answeredCount) * 40).toFixed(1) : 0;
+            document.getElementById('outOf40').textContent = `${outOf40}/40`;
         }
 
-        // Add touch feedback for mobile devices
-        document.addEventListener('DOMContentLoaded', function() {
-            const buttons = document.querySelectorAll('.answer-btn, .back-home-btn, .submit-btn, .copy-result-btn');
-            
-            buttons.forEach(button => {
-                button.addEventListener('touchstart', function() {
-                    this.style.transform = this.style.transform + ' scale(0.95)';
-                }, { passive: true });
-                
-                button.addEventListener('touchend', function() {
-                    setTimeout(() => {
-                        this.style.transform = this.style.transform.replace(' scale(0.95)', '');
-                    }, 150);
-                }, { passive: true });
-            });
-        });
+        function showCompleted() {
+            document.getElementById('mainContent').innerHTML = `
+                <div class="question-section">
+                    <div class="completed">
+                        <div class="completed-title">ප්‍රශ්නෝත්තරය අවසන්!</div>
+                        <div class="completed-message">සියලුම ප්‍රශ්න සම්පූර්ණ කර ඇත.</div>
+                    </div>
+                </div>
+            `;
+        }
 
-        // Add initial animation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-        });
+        // Load questions on page load
+        fetchQuestions();
     </script>
 </body>
 </html>
