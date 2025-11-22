@@ -149,22 +149,6 @@
             box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
         }
 
-        .number-select {
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1.1em;
-            width: 120px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .number-select:focus {
-            border-color: #3498db;
-            outline: none;
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
-        }
-
         .open-button {
             background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: white;
@@ -319,11 +303,6 @@
                 font-size: 0.95em;
             }
             
-            .number-select {
-                width: 100%;
-                max-width: 200px;
-            }
-            
             .info-section {
                 padding: 20px 15px;
             }
@@ -416,24 +395,12 @@
                     <button class="category-btn" onclick="selectCategory('යුරෝපා ඉතිහාසය', 'erp')">යුරෝපා ඉතිහාසය</button>
                 </div>
             </div>
-            
-            <div class="selection-group">
-                <label for="questionNumber">🔢 ප්‍රශ්න පත්‍ර අංකය (1-25):</label>
-                <select id="questionNumber" class="number-select" onchange="updateSelection()">
-                    <option value="">තෝරන්න</option>
-                    <script>
-                        for(let i = 1; i <= 25; i++) {
-                            document.write(`<option value="${i}">${i}</option>`);
-                        }
-                    </script>
-                </select>
-            </div>
         </div>
 
         <div class="info-section">
             <div id="selectionInfo" class="info-message no-selection">
                 <h3>🎯 තේරීම් කරන්න</h3>
-                <p>කරුණාකර විෂයක් සහ ප්‍රශ්න පත්‍ර අංකයක් තෝරා ප්‍රශ්න පත්‍රය විවෘත කරන්න</p>
+                <p>කරුණාකර විෂයක් තෝරා ප්‍රශ්න පත්‍රය විවෘත කරන්න</p>
             </div>
             
             <button id="openButton" class="open-button" onclick="openQuestionPaper()" disabled>
@@ -462,58 +429,36 @@
         }
 
         function updateSelection() {
-            const questionNumber = document.getElementById('questionNumber').value;
             const selectionInfo = document.getElementById('selectionInfo');
             const openButton = document.getElementById('openButton');
 
-            if (selectedCategory && questionNumber) {
-                // Both category and question number selected
+            if (selectedCategory) {
+                // Category selected
                 selectionInfo.className = 'info-message selection-info';
                 selectionInfo.innerHTML = `
                     <h3>✅ තේරීම් සම්පූර්ණයි</h3>
-                    <p><strong>විෂය:</strong> ${selectedCategory}<br>
-                    <strong>ප්‍රශ්න පත්‍ර අංකය:</strong> ${questionNumber}</p>
+                    <p><strong>විෂය:</strong> ${selectedCategory}</p>
                 `;
                 openButton.disabled = false;
-            } else if (selectedCategory && !questionNumber) {
-                // Only category selected
-                selectionInfo.className = 'info-message selection-info';
-                selectionInfo.innerHTML = `
-                    <h3>📚 විෂය තේරීම</h3>
-                    <p><strong>තේරූ විෂය:</strong> ${selectedCategory}<br>
-                    කරුණාකර ප්‍රශ්න පත්‍ර අංකයක් තෝරන්න</p>
-                `;
-                openButton.disabled = true;
-            } else if (!selectedCategory && questionNumber) {
-                // Only question number selected
-                selectionInfo.className = 'info-message selection-info';
-                selectionInfo.innerHTML = `
-                    <h3>🔢 ප්‍රශ්න පත්‍ර අංකය</h3>
-                    <p><strong>තේරූ අංකය:</strong> ${questionNumber}<br>
-                    කරුණාකර විෂයක් තෝරන්න</p>
-                `;
-                openButton.disabled = true;
             } else {
                 // Nothing selected
                 selectionInfo.className = 'info-message no-selection';
                 selectionInfo.innerHTML = `
                     <h3>🎯 තේරීම් කරන්න</h3>
-                    <p>කරුණාකර විෂයක් සහ ප්‍රශ්න පත්‍ර අංකයක් තෝරා ප්‍රශ්න පත්‍රය විවෘත කරන්න</p>
+                    <p>කරුණාකර විෂයක් තෝරා ප්‍රශ්න පත්‍රය විවෘත කරන්න</p>
                 `;
                 openButton.disabled = true;
             }
         }
 
         function openQuestionPaper() {
-            const questionNumber = document.getElementById('questionNumber').value;
-            
-            if (!selectedCategoryCode || !questionNumber) {
-                showStatus('කරුණාකර විෂය සහ ප්‍රශ්න පත්‍ර අංකය තෝරන්න', 'error');
+            if (!selectedCategoryCode) {
+                showStatus('කරුණාකර විෂය තෝරන්න', 'error');
                 return;
             }
 
-            // Generate filename based on selection
-            const filename = `index_${selectedCategoryCode}_${questionNumber}.html`;
+            // Generate filename based on selection (without question number)
+            const filename = `index_${selectedCategoryCode}.html`;
             
             // Try to open the file
             try {
