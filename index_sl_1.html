@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP ප්‍රශ්නෝත්තර පද්ධතිය</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Sinhala', Arial, sans-serif;
+            background: linear-gradient(135deg, #FFF8DC 0%, #F5DEB3 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background-color: #FAEBD7;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-label {
+            color: #654321;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            color: #8B4513;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .question-section {
+            background-color: #FAEBD7;
+            border: 3px solid #8B4513;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .advice-box {
+            background-color: #FFE4B5;
+            border: 2px solid #DAA520;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            color: #654321;
+            font-size: 16px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .question-text {
+            color: #8B4513;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .answer-btn {
+            background-color: #F4A460;
+            color: white;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .answer-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+            background-color: #E9967A;
+        }
+
+        .answer-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .answer-btn.selected {
+            background-color: #D2691E;
+        }
+
+        .loading, .completed {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-text, .completed-title {
+            color: #8B4513;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .completed-message {
+            color: #654321;
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        /* Popup Styles */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+        }
+
+        .popup-content {
+            background-color: #FAEBD7;
+            border: 4px solid #8B4513;
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 700px;
+            max-height: 85vh;
+            width: 90%;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+
+        .popup-title {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .popup-title.correct {
+            color: #228B22;
+        }
+
+        .popup-title.incorrect {
+            color: #DC143C;
+        }
+
+        .popup-explanation {
+            background-color: #FFF8DC;
+            color: #654321;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .popup-ok-btn {
+            width: 100%;
+            background-color: #D2691E;
+            color: white;
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .popup-ok-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-text {
+                font-size: 20px;
+            }
+            
+            .answer-btn {
+                font-size: 18px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-box">
+                <div class="stat-label">සාමාන්‍ය අගය</div>
+                <div class="stat-value" id="normalValue">0/0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">ප්‍රතිශතය</div>
+                <div class="stat-value" id="percentage">0%</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">40න් අගය</div>
+                <div class="stat-value" id="outOf40">0/40</div>
+            </div>
+        </div>
+
+        <!-- Question Section -->
+        <div id="mainContent">
+            <div class="loading">
+                <div class="loading-text">පූරණය වෙමින්...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <div class="popup-title" id="popupTitle"></div>
+            <div class="popup-explanation" id="popupExplanation"></div>
+            <button class="popup-ok-btn" onclick="closePopup()">OK</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://ceootocdixspqgcepyiv.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlb290b2NkaXhzcHFnY2VweWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MzQ3NjYsImV4cCI6MjA3OTMxMDc2Nn0.djUWz06WpVRi0QpsrnoZvDaA9DdE720r-qXbYcb78co';
+        
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        let questions = [];
+        let currentQuestionIndex = -1;
+        let answeredCount = 0;
+        let correctCount = 0;
+        let selectedAnswer = null;
+
+        async function fetchQuestions() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('sl')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                // Shuffle questions
+                questions = data.sort(() => Math.random() - 0.5);
+                
+                if (questions.length > 0) {
+                    currentQuestionIndex = 0;
+                    displayQuestion();
+                } else {
+                    showCompleted();
+                }
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="loading">
+                        <div class="loading-text" style="color: #DC143C;">දෝෂයක් සිදුවී ඇත</div>
+                    </div>
+                `;
+            }
+        }
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showCompleted();
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            selectedAnswer = null;
+
+            const adviceHtml = question.advice ? `<div class="advice-box">💡 ${question.advice}</div>` : '';
+
+            document.getElementById('mainContent').innerHTML = `
+                <div class="question-section">
+                    ${adviceHtml}
+                    <div class="question-text">${question.qs}</div>
+                    <div class="answers-grid">
+                        ${[1, 2, 3, 4, 5].map(num => `
+                            <button class="answer-btn" onclick="handleAnswer(${num})">${num}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function parseAnswer(answerText) {
+            const match = answerText.match(/^\((\d+)\)\s*(.*)/s);
+            if (match) {
+                return {
+                    correctOption: parseInt(match[1]),
+                    explanation: match[2].trim()
+                };
+            }
+            return { correctOption: null, explanation: answerText };
+        }
+
+        function handleAnswer(selectedOption) {
+            if (selectedAnswer !== null) return;
+            
+            selectedAnswer = selectedOption;
+            
+            // Disable all buttons and highlight selected
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index + 1 === selectedOption) {
+                    btn.classList.add('selected');
+                }
+            });
+
+            const currentQuestion = questions[currentQuestionIndex];
+            const { correctOption, explanation } = parseAnswer(currentQuestion.answer);
+            const isCorrect = selectedOption === correctOption;
+            
+            answeredCount++;
+            if (isCorrect) {
+                correctCount++;
+            }
+            
+            updateStats();
+            showPopup(isCorrect, explanation);
+        }
+
+        function showPopup(isCorrect, explanation) {
+            const popup = document.getElementById('popup');
+            const title = document.getElementById('popupTitle');
+            const explanationDiv = document.getElementById('popupExplanation');
+            
+            title.textContent = isCorrect ? '✓ පිළිතුරු නිවැරදියි' : '✗ පිළිතුර වැරදියි';
+            title.className = isCorrect ? 'popup-title correct' : 'popup-title incorrect';
+            
+            explanationDiv.textContent = (isCorrect ? 'වැඩි විස්තර: ' : 'හේතුව: ') + explanation;
+            
+            popup.classList.add('show');
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.remove('show');
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        function updateStats() {
+            document.getElementById('normalValue').textContent = `${correctCount}/${answeredCount}`;
+            
+            const percentage = answeredCount > 0 ? ((correctCount / answeredCount) * 100).toFixed(1) : 0;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            
+            const outOf40 = answeredCount > 0 ? ((correctCount / answeredCount) * 40).toFixed(1) : 0;
+            document.getElementById('outOf40').textContent = `${outOf40}/40`;
+        }
+
+        function showCompleted() {
+            document.getElementById('mainContent').innerHTML = `
+                <div class="question-section">
+                    <div class="completed">
+                        <div class="completed-title">ප්‍රශ්නෝත්තරය අවසන්!</div>
+                        <div class="completed-message">සියලුම ප්‍රශ්න සම්පූර්ණ කර ඇත.</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load questions on page load
+        fetchQuestions();
+    </script>
+</body>
+</html>
