@@ -316,7 +316,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = 'https://ceootocdixspqgcepyiv.supabase.co';
+        const SUPABASE_URL = 'https://uqgzlaxsnknheoerbfus.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVxZ3psYXhzbmtuaGVvZXJiZnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5MjM2MTUsImV4cCI6MjA3OTI4MzYxNX0.IYWZ7ukx8J-GJMWy7cMk2BWnmzJmJjjE93yEmJie7nQ';
         
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -328,31 +328,32 @@
         let selectedAnswer = null;
 
         async function fetchQuestions() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('sl')
-                    .select('*');
-                
-                if (error) throw error;
-                
-                // Shuffle questions
-                questions = data.sort(() => Math.random() - 0.5);
-                
-                if (questions.length > 0) {
-                    currentQuestionIndex = 0;
-                    displayQuestion();
-                } else {
-                    showCompleted();
-                }
-            } catch (error) {
-                console.error('Error fetching questions:', error);
-                document.getElementById('mainContent').innerHTML = `
-                    <div class="loading">
-                        <div class="loading-text" style="color: #DC143C;">දෝෂයක් සිදුවී ඇත</div>
-                    </div>
-                `;
-            }
+    try {
+        const { data, error } = await supabaseClient
+            .from('mcq')  // ✅ 'sl' වෙනුවට 'mcq'
+            .select('*')
+            .like('slug', 'sl%');  // ✅ slug එක 'sl' වලින් පටන් ගන්නා rows විතරක්
+        
+        if (error) throw error;
+        
+        // Shuffle questions
+        questions = data.sort(() => Math.random() - 0.5);
+        
+        if (questions.length > 0) {
+            currentQuestionIndex = 0;
+            displayQuestion();
+        } else {
+            showCompleted();
         }
+    } catch (error) {
+        console.error('Error fetching questions:', error);
+        document.getElementById('mainContent').innerHTML = `
+            <div class="loading">
+                <div class="loading-text" style="color: #DC143C;">දෝෂයක් සිදුවී ඇත</div>
+            </div>
+        `;
+    }
+}
 
         function parseTableFromQuestion(questionText) {
             // Check if question contains <table> tag
