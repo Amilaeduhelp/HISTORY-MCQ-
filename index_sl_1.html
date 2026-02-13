@@ -330,9 +330,9 @@
         async function fetchQuestions() {
     try {
         const { data, error } = await supabaseClient
-            .from('mcq')  // ✅ 'sl' වෙනුවට 'mcq'
-            .select('*')
-            .like('slug', 'sl%');  // ✅ slug එක 'sl' වලින් පටන් ගන්නා rows විතරක්
+    .from('mcq')
+    .select('*')
+    .like('slug', 'sl%');
         
         if (error) throw error;
         
